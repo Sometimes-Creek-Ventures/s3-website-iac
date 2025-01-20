@@ -40,6 +40,66 @@ Yarn is a package manager that makes it easier to manage dependencies for your p
 
 ---
 
+## Configuring AWS Credentials for CDK
+
+To deploy the AWS CDK stack, you need AWS credentials configured locally. Follow these steps to set up your AWS credentials:
+
+1. **Install the AWS CLI:**
+   If you haven’t already installed the AWS CLI, download and install it from [AWS CLI Installation Guide](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html).
+
+2. **Configure AWS CLI:**
+   Run the following command to configure your credentials:
+   ```bash
+   aws configure
+   ```
+   You will be prompted to provide:
+   - AWS Access Key ID
+   - AWS Secret Access Key
+   - Default region (e.g., `us-east-1`)
+   - Default output format (e.g., `json`)
+
+   These credentials should match the account and region where you want to deploy the stack.
+
+3. **Verify Credentials:**
+   To ensure your credentials are correctly configured, run:
+   ```bash
+   aws sts get-caller-identity
+   ```
+   This will display the account and user details associated with your credentials.
+
+Once configured, the AWS CDK will automatically use these credentials when deploying your stack.
+
+---
+
+## Creating an IAM User for Access Keys
+
+If you need to create an IAM user to generate access keys for the AWS CLI and CDK:
+
+1. **Log in to the AWS Management Console:**
+   Navigate to the [IAM Console](https://console.aws.amazon.com/iam/).
+
+2. **Create a New User:**
+   - Go to **Users** > **Add Users**.
+   - Enter a username (e.g., `CDKDeployUser`).
+   - Select **Access Key - Programmatic Access**.
+
+3. **Attach Policies to the User:**
+   - Choose **Attach existing policies directly**.
+   - Attach the following policies:
+     - `AmazonS3FullAccess`
+     - `CloudFrontFullAccess`
+     - `Route53FullAccess`
+     - `IAMUserChangePassword` (optional, for password resets).
+
+4. **Complete User Creation:**
+   - Click **Next** until the process is complete.
+   - Download the **Access Key ID** and **Secret Access Key**.
+
+5. **Store Credentials Securely:**
+   - Use these credentials to configure the AWS CLI or add them as GitHub secrets for automated workflows.
+
+---
+
 ## Project Structure
 
 ### Key Files
@@ -52,8 +112,8 @@ Yarn is a package manager that makes it easier to manage dependencies for your p
 
 ### Step 1: Clone the Repository
 ```bash
-git clone https://github.com/your-repo-name.git
-cd your-repo-name
+git clone https://github.com/Sometimes-Creek-Ventures/s3-website-iac.git
+cd s3-website-iac
 ```
 
 ### Step 2: Install Dependencies
